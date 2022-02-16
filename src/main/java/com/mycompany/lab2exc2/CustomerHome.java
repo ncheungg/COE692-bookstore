@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author student
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "CustomerHome", urlPatterns = {"/CustomerHome"})
+public class CustomerHome extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -33,7 +33,33 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        
+        String action = request.getParameter("customer-action");
+        
+        RequestDispatcher rd;
+        
+        switch (action) {
+            case "profile":
+                rd = request.getRequestDispatcher("customerProfile.jsp");
+                rd.forward(request, response);
+                break;
+            
+            case "history":
+                rd = request.getRequestDispatcher("customerHistory.jsp");
+                rd.forward(request, response);
+                break;
+            
+            case "search":
+                rd = request.getRequestDispatcher("search.jsp");
+                rd.forward(request, response);
+                break;
+            
+            default:
+                rd = request.getRequestDispatcher("error.jsp");
+                rd.forward(request, response);
+                break;
+        }
+        
     }
 
     /**
@@ -47,32 +73,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        String[][] registeredUsers = {
-            {"asdf", "1234"},
-            {"test", "user"},
-            {"hello", "world"}
-        };
-        
-        RequestDispatcher rd;
-        
-        for (String[] user : registeredUsers) {
-            if (user[0].equals(username) && user[1].equals(password)) {
-                // we can pull user data from database here
-                
-                rd = request.getRequestDispatcher("customerHome.jsp");
-                rd.forward(request, response);
-                break;
-            }
-        }
-        
-        // send error message
-        rd = request.getRequestDispatcher("error.jsp");
-        rd.forward(request, response);
-        
+        processRequest(request, response);
     }
 
     /**
