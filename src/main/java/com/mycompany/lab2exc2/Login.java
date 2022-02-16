@@ -33,18 +33,34 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        PrintWriter out = response.getWriter();
+        
         String username = (String) request.getParameter("username");
         String password = (String) request.getParameter("password");
         
-        User user = getUserInfo(username, password);
+        out.print(username);
+        out.print(password);
         
-        if (user == null) {
-            RequestDispatcher rd = request.getRequestDispatcher("loginfailed.jsp");
-            rd.forward(request, response);
-        } else {
+        // hard coded user, will be replaced by database
+        if (username.equals("test") && password.equals("1234")) {
+            // hard coded test user
+            User user = new User(username, password);
+            user.setBalance(123.00);
+            
             request.getSession().setAttribute("username", username);
             request.setAttribute("balance", userInfo.getBalance());
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("loginfailed.jsp");
+            rd.forward(request, response);
         }
+        
+//        if (user == null) {
+//            RequestDispatcher rd = request.getRequestDispatcher("loginfailed.jsp");
+//            rd.forward(request, response);
+//        } else {
+//            request.getSession().setAttribute("username", username);
+//            request.setAttribute("balance", userInfo.getBalance());
+//        }
         
     }
 

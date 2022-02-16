@@ -22,7 +22,7 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.balance = 0.00;
-        this.shoppingCart = new ArrayList<>();
+        this.shoppingCart = new ArrayList<Book>();
     }
 
     public String getUsername() {

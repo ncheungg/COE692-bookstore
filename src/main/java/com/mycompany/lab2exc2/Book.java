@@ -18,13 +18,23 @@ public class Book {
     private String description;
     private String author;
     private double price;
+    private int releaseYear;
 
-    public Book(String ISBN, String title, String description, String author, double price) {
+    public Book(String ISBN, String title, String description, String author, double price, int releaseYear) {
         this.ISBN = ISBN;
         this.title = title;
         this.description = description;
         this.author = author;
         this.price = price;
+        this.releaseYear = releaseYear;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public String getISBN() {
