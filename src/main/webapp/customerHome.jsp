@@ -19,6 +19,8 @@
             
             <h1 class="text-center">Customer Home</h1>
             
+            <h6 class="text-center">Welcome back ${username}!</h6>
+            
             <div class="row g-2">
                 <div class="col text-center">
                     <form action="CustomerHome" method="get">

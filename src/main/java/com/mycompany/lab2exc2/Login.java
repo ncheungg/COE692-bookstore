@@ -63,6 +63,8 @@ public class Login extends HttpServlet {
             if (user[0].equals(username) && user[1].equals(password)) {
                 // we can pull user data from database here
                 
+                request.setAttribute("username", username);
+                
                 rd = request.getRequestDispatcher("customerHome.jsp");
                 rd.forward(request, response);
                 break;

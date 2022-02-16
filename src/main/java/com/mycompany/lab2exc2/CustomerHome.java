@@ -45,6 +45,14 @@ public class CustomerHome extends HttpServlet {
                 break;
             
             case "history":
+                String[][] history = {
+                    {"Fifty Shades of Grey", "E. L. James", "2011"},
+                    {"Fifty Shades Darker", "E. L. James", "2012"},
+                    {"Fifty Shades Freed", "E. L. James", "2012"}
+                };
+                
+                request.setAttribute("history", history);
+                
                 rd = request.getRequestDispatcher("customerHistory.jsp");
                 rd.forward(request, response);
                 break;
