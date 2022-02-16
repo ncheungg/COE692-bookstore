@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.mycompany.lab2exc2;
 
 import java.io.IOException;
@@ -33,35 +32,24 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        PrintWriter out = response.getWriter();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         
-        String username = (String) request.getParameter("username");
-        String password = (String) request.getParameter("password");
-        
-        out.print(username);
-        out.print(password);
-        
-        // hard coded user, will be replaced by database
-        if (username.equals("test") && password.equals("1234")) {
-            // hard coded test user
-            User user = new User(username, password);
-            user.setBalance(123.00);
-            
-            request.getSession().setAttribute("username", username);
-            request.setAttribute("balance", userInfo.getBalance());
-        } else {
-            RequestDispatcher rd = request.getRequestDispatcher("loginfailed.jsp");
-            rd.forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Login</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
+            out.println(username);
+            out.println(password);
+            out.println("</body>");
+            out.println("</html>");
         }
-        
-//        if (user == null) {
-//            RequestDispatcher rd = request.getRequestDispatcher("loginfailed.jsp");
-//            rd.forward(request, response);
-//        } else {
-//            request.getSession().setAttribute("username", username);
-//            request.setAttribute("balance", userInfo.getBalance());
-//        }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
