@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mycompany.lab2exc2.Persistence.UserCRUD;
+
 /**
  *
  * @author student
@@ -51,29 +53,19 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        String[][] registeredUsers = {
-            {"asdf", "1234"},
-            {"test", "user"},
-            {"hello", "world"}
-        };
-        
         RequestDispatcher rd;
+        boolean isValidUser = UserCRUD.isValidUser(username, password);
         
-        for (String[] user : registeredUsers) {
-            if (user[0].equals(username) && user[1].equals(password)) {
-                // we can pull user data from database here
+        if (isValidUser) {
+            request.setAttribute("username", username);
                 
-                request.setAttribute("username", username);
-                
-                rd = request.getRequestDispatcher("customerHome.jsp");
-                rd.forward(request, response);
-                break;
-            }
-        }
-        
-        // send error message
-        rd = request.getRequestDispatcher("error.jsp");
-        rd.forward(request, response);
+            rd = request.getRequestDispatcher("customerHome.jsp");
+            rd.forward(request, response);
+        } else {
+            // send error message
+            rd = request.getRequestDispatcher("error.jsp");
+            rd.forward(request, response);
+        } 
         
     }
 

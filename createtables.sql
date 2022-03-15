@@ -1,4 +1,6 @@
--- create database bookstore;
+drop database bookstore;
+create database bookstore;
+use bookstore;
 
 create table author (
     authorID int not null auto_increment,
