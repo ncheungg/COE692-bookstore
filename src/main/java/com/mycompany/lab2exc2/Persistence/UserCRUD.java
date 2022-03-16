@@ -1,30 +1,14 @@
 package com.mycompany.lab2exc2.Persistence;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.io.PrintWriter;
 
-public class UserCRUD {
+
+public class UserCRUD extends CRUD {
     
-    private static Connection getCon() {
-        Connection con = null;
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/lms?autoReconnect=true&useSSL=false", "root", "student");
-            System.out.println("Connection established.");
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-        return con;
-    }
-    
-    public static boolean isValidUser(String username, String password) {
-        boolean isUser = false;
+    public static int getUserID(String username, String password) {
+        int userID = -1;
         
         try {
             Connection con = getCon();
@@ -35,19 +19,15 @@ public class UserCRUD {
             
             // if there is a valid response in the query
             if (rs.next()) {
-                isUser = true;
+                userID = Integer.parseInt(rs.getString("userID"));
             }
-            
             con.close();
-            
-            System.out.println(q);
-            System.out.println(isUser);
             
         } catch (Exception e) {
             System.out.println(e);
         }
         
-        return isUser;
+        return userID;
     }
     
 }

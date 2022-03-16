@@ -24,18 +24,21 @@
             <div class="row g-2">
                 <div class="col text-center">
                     <form action="CustomerHome" method="get">
+                        <input name="userID" value="${userID}" type="hidden">
                         <button name="customer-action" value="profile" type="submit" class="btn btn-info">View Profile Info</button>
                     </form>
                 </div>
                 
                 <div class="col text-center">
                     <form action="CustomerHome" method="get">
+                        <input name="userID" value="${userID}" type="hidden">
                         <button name="customer-action" value="history" type="submit" class="btn btn-warning">View Purchase History</button>
                     </form>
                 </div>
                 
                 <div class="col text-center">
                     <form action="CustomerHome" method="get">
+                        <input name="userID" value="${userID}" type="hidden">
                         <button name="customer-action" value="search" type="submit" class="btn btn-primary">Search for Books</button>
                     </form>
                 </div>

@@ -22,17 +22,19 @@
             
             <table class="table">
                 <thead>
-                    <th scope="col">Title</th>
-                    <th scope="col">Authors</th>
-                    <th scope="col">Year</th>
+                    <th scope="col">OrderID</th>
+                    <th scope="col">Item Count</th>
+                    <th scope="col">Purchase Date</th>
+                    <th scope="col">Order Total</th>
                 </thead>
                 
                 <tbody>
                     <c:forEach items="${history}" var="entry">
                         <tr>
-                            <c:forEach items="${entry}" var="value">
-                                <td>${value}</td>
-                            </c:forEach>
+                            <td>${entry[0]}</td>
+                            <td>${entry[1]}</td>
+                            <td>${entry[2]}</td>
+                            <td>${entry[3]}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

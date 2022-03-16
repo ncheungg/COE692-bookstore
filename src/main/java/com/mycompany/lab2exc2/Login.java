@@ -54,10 +54,11 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         
         RequestDispatcher rd;
-        boolean isValidUser = UserCRUD.isValidUser(username, password);
+        int userID = UserCRUD.getUserID(username, password);
         
-        if (isValidUser) {
+        if (userID > 0) {
             request.setAttribute("username", username);
+            request.setAttribute("userID", userID);
                 
             rd = request.getRequestDispatcher("customerHome.jsp");
             rd.forward(request, response);

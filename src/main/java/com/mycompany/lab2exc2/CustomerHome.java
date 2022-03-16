@@ -5,6 +5,7 @@
  */
 package com.mycompany.lab2exc2;
 
+import com.mycompany.lab2exc2.Persistence.OrdersCRUD;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,6 +37,7 @@ public class CustomerHome extends HttpServlet {
             throws ServletException, IOException {
         
         String action = request.getParameter("customer-action");
+        String userID = request.getParameter("userID");
         
         RequestDispatcher rd;
         
@@ -45,11 +48,16 @@ public class CustomerHome extends HttpServlet {
                 break;
             
             case "history":
-                String[][] history = {
-                    {"Fifty Shades of Grey", "E. L. James", "2011"},
-                    {"Fifty Shades Darker", "E. L. James", "2012"},
-                    {"Fifty Shades Freed", "E. L. James", "2012"}
-                };
+                ArrayList<String[]> history = OrdersCRUD.getOrderHistory(userID);
+                
+                System.out.println("userID: " + userID);
+                
+                for (String[] row : history) {
+                    for (String item : row) {
+                        System.out.print(item);
+                    }
+                    System.out.println("");
+                }
                 
                 request.setAttribute("history", history);
                 
