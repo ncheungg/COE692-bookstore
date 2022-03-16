@@ -58,12 +58,10 @@ create table inventory (
 create table orders (
     orderID int not null auto_increment,
     userID int,
-    bookID int,
     paymentID int,
     purchaseDate date not null,
     orderTotal float not null,
     foreign key (userID) references user (userID),
-    foreign key (bookID) references book (bookID),
     foreign key (paymentID) references payment_method (paymentID),
     primary key (orderID)
 );
