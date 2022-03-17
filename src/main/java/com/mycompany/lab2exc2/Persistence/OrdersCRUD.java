@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import com.mycompany.lab2exc2.Helper.Order;
+import com.mycompany.lab2exc2.Helper.Book;
 
 
 public class OrdersCRUD extends CRUD {
     
-    public static ArrayList<String[]> getOrderHistory(String userID) {
+    public static ArrayList<Order> getOrderHistory(int userID) {
         
-        ArrayList<String[]> orders = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
         
         try {
             Connection con = getCon();
@@ -21,20 +23,20 @@ public class OrdersCRUD extends CRUD {
             
             // loop through the orders and add necessary values
             while (rs.next()) {
-                String[] row = new String[5];
+                int orderID = Integer.parseInt(rs.getString("orderID"));
+                int paymentID = Integer.parseInt(rs.getString("paymentID"));
+                String purchaseDate = rs.getString("purchaseDate");
+                double orderTotal = Double.parseDouble(rs.getString("orderTotal"));
                 
-                row[0] = rs.getString("orderID");
-                row[2] = rs.getString("purchaseDate");
-                row[3] = rs.getString("orderTotal");
-                row[4] = rs.getString("paymentID");
-                
-                orders.add(row);
+                Order order = new Order(orderID, userID, paymentID, purchaseDate, orderTotal);
+                orders.add(order);
             }
             con.close();
             
-            for (String[] row : orders) {
-                String orderID = row[0];
-                row[1] = Integer.toString(getOrderItemCount(orderID));
+            for (Order order : orders) {
+                int orderID = order.getOrderID();
+                ArrayList<Book> books = getOrderItems(orderID);
+                order.setBooks(books);
             }
             
         } catch (Exception e) {
@@ -45,20 +47,21 @@ public class OrdersCRUD extends CRUD {
         
     }
     
-    public static int getOrderItemCount(String orderID) {
+    public static ArrayList<Book> getOrderItems(int orderID) {
         
-        int itemCount = -1;
+        ArrayList<Integer> bookIDs = new ArrayList<>();
+        ArrayList<Book> books = new ArrayList<>();
         
         try {
             Connection con = getCon();
             
-            String q = "select count(orderID) from orders where orderID = '" + orderID + "'";
+            String q = "select * from order_items where orderID = '" + orderID + "'";
             PreparedStatement ps = con.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
             
-            // if there is a valid response in the query
-            if (rs.next()) {
-                itemCount = rs.getInt(1);
+            while (rs.next()) {
+                int bookID = Integer.parseInt(rs.getString("bookID"));
+                bookIDs.add(bookID);
             }
             con.close();
             
@@ -66,10 +69,16 @@ public class OrdersCRUD extends CRUD {
             System.out.println(e);
         }
         
-        return itemCount;
+        // loop thru and get books
+        for (int bookID : bookIDs) {
+            Book book = BookCRUD.getBook(bookID);
+            
+            if (book != null) 
+                books.add(book);
+        }
+        
+        return books;
         
     }
-    
-//    public static ArrayList<String[]> getOrderItems(String orderID) {}
     
 }

@@ -29,12 +29,12 @@
                 </thead>
                 
                 <tbody>
-                    <c:forEach items="${history}" var="entry">
+                    <c:forEach items="${history}" var="order">
                         <tr>
-                            <td>${entry[0]}</td>
-                            <td>${entry[1]}</td>
-                            <td>${entry[2]}</td>
-                            <td>${entry[3]}</td>
+                            <td>${order.getOrderID()}</td>
+                            <td>${order.getBookCount()}</td>
+                            <td>${order.getPurchaseDate()}</td>
+                            <td>${order.getOrderTotal()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

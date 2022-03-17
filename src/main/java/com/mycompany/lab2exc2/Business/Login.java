@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.lab2exc2;
+package com.mycompany.lab2exc2.Business;
 
-import com.mycompany.lab2exc2.Persistence.OrdersCRUD;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -14,14 +13,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+
+import com.mycompany.lab2exc2.Persistence.UserCRUD;
+import com.mycompany.lab2exc2.Helper.User;
 
 /**
  *
  * @author student
  */
-@WebServlet(name = "CustomerHome", urlPatterns = {"/CustomerHome"})
-public class CustomerHome extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
+public class Login extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -35,47 +36,7 @@ public class CustomerHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String action = request.getParameter("customer-action");
-        String userID = request.getParameter("userID");
-        
-        RequestDispatcher rd;
-        
-        switch (action) {
-            case "profile":
-                rd = request.getRequestDispatcher("customerProfile.jsp");
-                rd.forward(request, response);
-                break;
-            
-            case "history":
-                ArrayList<String[]> history = OrdersCRUD.getOrderHistory(userID);
-                
-                System.out.println("userID: " + userID);
-                
-                for (String[] row : history) {
-                    for (String item : row) {
-                        System.out.print(item);
-                    }
-                    System.out.println("");
-                }
-                
-                request.setAttribute("history", history);
-                
-                rd = request.getRequestDispatcher("customerHistory.jsp");
-                rd.forward(request, response);
-                break;
-            
-            case "search":
-                rd = request.getRequestDispatcher("search.jsp");
-                rd.forward(request, response);
-                break;
-            
-            default:
-                rd = request.getRequestDispatcher("error.jsp");
-                rd.forward(request, response);
-                break;
-        }
-        
+//        processRequest(request, response);
     }
 
     /**
@@ -89,7 +50,25 @@ public class CustomerHome extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-  //      processRequest(request, response);
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        RequestDispatcher rd;
+        User user = UserCRUD.getUserInfo(username, password);
+        
+        if (user != null) {
+            request.setAttribute("username", username);
+            request.setAttribute("userID", user.getUserID());
+                
+            rd = request.getRequestDispatcher("customerHome.jsp");
+            rd.forward(request, response);
+        } else {
+            // send error message
+            rd = request.getRequestDispatcher("error.jsp");
+            rd.forward(request, response);
+        } 
+        
     }
 
     /**

@@ -25,7 +25,7 @@
             <div class="alert alert-info">
                <div class="row">
                 <div class="col">USERNAME:</div>
-                <div class="col">hello</div>
+                <div class="col">${user.getUsername()}</div>
                 <div class="w-100"></div>
                 <div class="col">PASSWORD:</div>
                 <div class="col">*****</div>                       
@@ -35,21 +35,18 @@
             <h3>ABOUT ME</h3>
             <div class="alert alert-info">
                 <div class="row">
-                <div class="col">NAME:</div>
-                <div class="col">Tobias</div>
+                <div class="col">FIRST NAME:</div>
+                <div class="col">${user.getFirstName()}</div>
                 <div class="w-100"></div>
-                <div class="col">EMAIL:</div>
-                <div class="col">Tobias123@gmail.com</div>
-                <div class="w-100"></div>
-                <div class="col">DATE OF BIRTH:</div>
-                <div class="col">January 1 1995</div>                
+                <div class="col">LAST NAME:</div>
+                <div class="col">${user.getLastName()}</div>
                 <div class="w-100"></div>
                 <div class="col">PHONE NUMBER:</div>
-                <div class="col">4563447897</div>                
+                <div class="col">${user.getPhoneNumber()}</div>                
                 </div>                                                                                         
             </div>
 
-            <h3>SAVED ADDRESSES</h3>
+<!--            <h3>SAVED ADDRESSES</h3>
             <div class="alert alert-info">
                 <div class="row">BILLING ADDRESS</div>
                 <div class="row">Tobias</div>
@@ -58,7 +55,7 @@
                 <div class="row">H67R52 Canada</div>
                 <div class="row">4563447897</div>       
                 </div>                                                                                         
-            </div>            
+            </div>            -->
             
             
             

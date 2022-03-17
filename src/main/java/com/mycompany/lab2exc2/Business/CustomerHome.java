@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.lab2exc2;
+package com.mycompany.lab2exc2.Business;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,15 +13,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
+import com.mycompany.lab2exc2.Persistence.OrdersCRUD;
 import com.mycompany.lab2exc2.Persistence.UserCRUD;
+import com.mycompany.lab2exc2.Helper.Order;
+import com.mycompany.lab2exc2.Helper.User;
 
 /**
  *
  * @author student
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "CustomerHome", urlPatterns = {"/CustomerHome"})
+public class CustomerHome extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -35,7 +39,40 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        
+        String action = request.getParameter("customer-action");
+        int userID = Integer.parseInt(request.getParameter("userID"));
+        
+        RequestDispatcher rd;
+        
+        switch (action) {
+            case "profile":
+                User user = UserCRUD.getUserInfo(userID);
+                request.setAttribute("user", user);
+                
+                rd = request.getRequestDispatcher("customerProfile.jsp");
+                rd.forward(request, response);
+                break;
+            
+            case "history":
+                ArrayList<Order> history = OrdersCRUD.getOrderHistory(userID);
+                request.setAttribute("history", history);
+                
+                rd = request.getRequestDispatcher("customerHistory.jsp");
+                rd.forward(request, response);
+                break;
+            
+            case "search":
+                rd = request.getRequestDispatcher("search.jsp");
+                rd.forward(request, response);
+                break;
+            
+            default:
+                rd = request.getRequestDispatcher("error.jsp");
+                rd.forward(request, response);
+                break;
+        }
+        
     }
 
     /**
@@ -49,25 +86,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        RequestDispatcher rd;
-        int userID = UserCRUD.getUserID(username, password);
-        
-        if (userID > 0) {
-            request.setAttribute("username", username);
-            request.setAttribute("userID", userID);
-                
-            rd = request.getRequestDispatcher("customerHome.jsp");
-            rd.forward(request, response);
-        } else {
-            // send error message
-            rd = request.getRequestDispatcher("error.jsp");
-            rd.forward(request, response);
-        } 
-        
+  //      processRequest(request, response);
     }
 
     /**

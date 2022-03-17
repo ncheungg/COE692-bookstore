@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.lab2exc2;
+package com.mycompany.lab2exc2.Business;
 
 import java.io.IOException;
 import java.io.PrintWriter;
